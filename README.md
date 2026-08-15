@@ -1,6 +1,6 @@
 # Xitcoin Contracts
 
-Canonical source and deployment references for Xitcoin smart contracts.
+Canonical source, deployment and security references for Xitcoin smart contracts.
 
 ## Cronos deployments
 
@@ -11,18 +11,25 @@ Canonical source and deployment references for Xitcoin smart contracts.
 | Xitcoin V2 implementation | `0x6c171952999421F0DA00E14F97B9C2DfBE71D8A0` | 18 | Current proxy implementation |
 | Migration | `0x5A570197e4835d0c2F2F956026981E0cff50A8c9` | — | Converts V1 units to V2 units |
 
-Use the proxy address for all V2 integrations. Addresses are also published in [`deployments/cronos.json`](deployments/cronos.json).
+Use the proxy address for integrations with Xitcoin V2. The machine-readable registry is [`deployments/cronos.json`](deployments/cronos.json).
 
 ## Repository layout
 
 - `contracts/cronos/v1/`: verified V1 source;
 - `contracts/cronos/v2/`: verified V2 implementation source;
 - `contracts/cronos/migration/`: verified migration source;
-- `deployments/`: machine-readable deployment registry;
+- `deployments/`: canonical network and address registry;
+- `audits/`: independent audit references and their exact scope;
 - `docs/MIGRATION.md`: migration accounting and verification;
 - `docs/UPGRADE_POLICY.md`: V2 upgrade controls.
 
-The native XTC asset on Xitcoin EVM is implemented by the chain and is not an ERC-20 deployment in this repository. A future cross-chain bridge contract will be published here only after implementation, review and deployment.
+The native XTC asset on Xitcoin EVM is implemented by the chain. It is not an ERC-20 deployment in this repository. A cross-chain bridge contract will be published here only after it exists, has been reviewed and has a canonical deployment.
+
+## Audit
+
+The current V2 implementation source is covered by the Cyberscope audit referenced in [`audits/README.md`](audits/README.md). The audited SHA-256 matches `contracts/cronos/v2/XTCV2.sol`.
+
+No audit coverage is claimed here for V1, the migration contract, Xitcoin EVM or a future bridge unless an explicit report is added with a matching source hash.
 
 ## Verification
 
@@ -37,6 +44,4 @@ Expected source hashes are recorded in `deployments/cronos.json`.
 
 ## Security
 
-Do not send assets to an address copied from an untrusted source. Verify the chain, address and intended function against the registry and the Cronos explorer before signing.
-
-Report vulnerabilities privately according to [`SECURITY.md`](SECURITY.md).
+Verify the chain, address and intended function before signing. Report vulnerabilities privately according to [`SECURITY.md`](SECURITY.md).
