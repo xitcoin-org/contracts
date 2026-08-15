@@ -13,6 +13,8 @@ Canonical source, deployment, security and ecosystem references for Xitcoin smar
 
 Use the proxy address for integrations with Xitcoin V2. The machine-readable deployment registry is [`deployments/cronos.json`](deployments/cronos.json).
 
+The deployed Cronos V2 contract returns `$XTC` from `symbol()`. The public notation and the native Xitcoin blockchain symbol are `XTC`; the native atomic denomination is `axtc`. See [`ecosystem/README.md`](ecosystem/README.md) for the integration distinction.
+
 ## Repository layout
 
 - `contracts/cronos/v1/`: verified V1 source;

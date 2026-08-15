@@ -24,7 +24,7 @@ Cyberscope lists four iterations for this audit record:
 - 16 February 2026;
 - 17 February 2026.
 
-The current official record displays 0 findings, including 0 critical, 0 medium and 0 minor findings, and 0 unresolved findings. Cyberscope also displays an audit security score of 95%. Its separate project-level score combines non-code factors and must not be interpreted as smart-contract coverage.
+The official record publishes its current findings and status. Live scores, rankings and project statistics are not duplicated in this repository because Cyberscope updates them independently.
 
 ## Scope
 

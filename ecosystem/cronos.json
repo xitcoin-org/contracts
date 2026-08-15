@@ -3,7 +3,8 @@
   "chain_id": 25,
   "asset": {
     "name": "Xitcoin",
-    "symbol": "XTC",
+    "on_chain_symbol": "$XTC",
+    "public_notation": "XTC",
     "proxy_address": "0xE45FE733BC8617FA6DAC8437FC44B5FFFA949991",
     "decimals": 18
   },

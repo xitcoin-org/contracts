@@ -9,11 +9,14 @@ This directory records stable public discovery, verification and community refer
 | Network | Cronos Mainnet |
 | Chain ID | `25` |
 | Asset | Xitcoin |
-| Public ticker | `XTC` |
+| On-chain V2 `symbol()` | `$XTC` |
+| Public asset notation | `XTC` |
 | V2 proxy | `0xE45FE733BC8617FA6DAC8437FC44B5FFFA949991` |
 | Decimals | `18` |
 
-Applications must use the V2 proxy address. The source and deployment registry remain authoritative for contract integration.
+The dollar sign is part of the deployed Cronos V2 contract's historical `symbol()` value. It is not part of the native Xitcoin blockchain denomination, whose public symbol is `XTC` and atomic denomination is `axtc`.
+
+Applications integrating the Cronos token must use the V2 proxy address and must tolerate the exact on-chain symbol. The source and deployment registry remain authoritative for contract integration.
 
 ## Verification and listings
 
