@@ -1,6 +1,6 @@
 # Xitcoin Contracts
 
-Canonical source, deployment and security references for Xitcoin smart contracts.
+Canonical source, deployment, security and ecosystem references for Xitcoin smart contracts.
 
 ## Cronos deployments
 
@@ -11,15 +11,16 @@ Canonical source, deployment and security references for Xitcoin smart contracts
 | Xitcoin V2 implementation | `0x6c171952999421F0DA00E14F97B9C2DfBE71D8A0` | 18 | Current proxy implementation |
 | Migration | `0x5A570197e4835d0c2F2F956026981E0cff50A8c9` | — | Converts V1 units to V2 units |
 
-Use the proxy address for integrations with Xitcoin V2. The machine-readable registry is [`deployments/cronos.json`](deployments/cronos.json).
+Use the proxy address for integrations with Xitcoin V2. The machine-readable deployment registry is [`deployments/cronos.json`](deployments/cronos.json).
 
 ## Repository layout
 
 - `contracts/cronos/v1/`: verified V1 source;
 - `contracts/cronos/v2/`: verified V2 implementation source;
 - `contracts/cronos/migration/`: verified migration source;
-- `deployments/`: canonical network and address registry;
+- `deployments/`: canonical network and contract registry;
 - `audits/`: independent audit references and their exact scope;
+- `ecosystem/`: explorer verification, listings and market discovery references;
 - `docs/MIGRATION.md`: migration accounting and verification;
 - `docs/UPGRADE_POLICY.md`: V2 upgrade controls.
 
@@ -31,13 +32,18 @@ The current V2 implementation source is covered by the Cyberscope audit referenc
 
 No audit coverage is claimed here for V1, the migration contract, Xitcoin EVM or a future bridge unless an explicit report is added with a matching source hash.
 
-## Verification
+## Verification and listings
+
+Cronos Explorer verification, CoinGecko, CoinMarketCap and current market-discovery references are maintained in [`ecosystem/README.md`](ecosystem/README.md). Third-party markets are not designated as official pools. Always verify the Cronos chain and V2 proxy address before signing.
+
+## Verification commands
 
 ```bash
 sha256sum contracts/cronos/v1/XitcoinV1.sol
 sha256sum contracts/cronos/v2/XTCV2.sol
 sha256sum contracts/cronos/migration/Migration.sol
 jq . deployments/cronos.json
+jq . ecosystem/cronos.json
 ```
 
 Expected source hashes are recorded in `deployments/cronos.json`.
