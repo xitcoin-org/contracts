@@ -1,0 +1,30 @@
+{
+  "network": "Cronos Mainnet",
+  "chain_id": 25,
+  "asset": {
+    "name": "Xitcoin",
+    "symbol": "XTC",
+    "proxy_address": "0xE45FE733BC8617FA6DAC8437FC44B5FFFA949991",
+    "decimals": 18
+  },
+  "verification": {
+    "token_profile": "https://explorer.cronos.com/token/0xe45fe733bc8617fa6dac8437fc44b5fffa949991",
+    "contract": "https://explorer.cronos.com/address/0xe45fe733bc8617fa6dac8437fc44b5fffa949991"
+  },
+  "listings": {
+    "coingecko": {
+      "id": "xitcoin",
+      "url": "https://www.coingecko.com/en/coins/xitcoin",
+      "markets_url": "https://www.coingecko.com/en/coins/xitcoin#markets"
+    },
+    "coinmarketcap": {
+      "id": 39608,
+      "url": "https://coinmarketcap.com/currencies/xitcoin/"
+    }
+  },
+  "market_policy": {
+    "official_pool_designation": false,
+    "mutable_statistics_recorded": false,
+    "verification_requirement": "Confirm the Cronos chain and Xitcoin V2 proxy address before signing."
+  }
+}
