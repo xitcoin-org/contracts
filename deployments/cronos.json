@@ -1,0 +1,27 @@
+{
+  "network": "Cronos Mainnet",
+  "chain_id": 25,
+  "contracts": {
+    "v1": {
+      "address": "0xDD646291D2fff52c75F27CCDAdD0D4C2A24f37Dd",
+      "contract": "StandardToken",
+      "decimals": 8,
+      "source": "contracts/cronos/v1/XitcoinV1.sol",
+      "source_sha256": "43810ac0dfad3de7f65f6848ac6e3953da2024288d0937b62fa80707ff0dd5bf"
+    },
+    "v2": {
+      "proxy": "0xE45FE733BC8617FA6DAC8437FC44B5FFFA949991",
+      "implementation": "0x6c171952999421F0DA00E14F97B9C2DfBE71D8A0",
+      "contract": "XitcoinImplementation",
+      "decimals": 18,
+      "source": "contracts/cronos/v2/XTCV2.sol",
+      "source_sha256": "b5de4f5c4f13334bf644ec8fa97f8b0cda836ddc76935dc14c7bfcda2a73ff14"
+    },
+    "migration": {
+      "address": "0x5A570197e4835d0c2F2F956026981E0cff50A8c9",
+      "contract": "Migration",
+      "source": "contracts/cronos/migration/Migration.sol",
+      "source_sha256": "7fd7b004d51c558a32fcaa70eae790d1eca2ae25fcbb82f6c8343b41bd4bc492"
+    }
+  }
+}

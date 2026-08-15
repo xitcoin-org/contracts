@@ -7,7 +7,7 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-contract XitcoinImplentation is
+contract XitcoinImplementation is
     Initializable,
     ERC20Upgradeable,
     OwnableUpgradeable,
@@ -17,18 +17,18 @@ contract XitcoinImplentation is
 
     address[3] public voters;
 
-    /// Upgrade Voting
+    // Upgrade Voting
     mapping(address => bool) public upgradeVotes;
     uint8 public upgradeVoteCount;
     address public pendingUpgrade;
     bool private _upgradeInProgress;
 
-    /// Owner Change Voting
+    // Owner Change Voting
     mapping(address => bool) public ownerChangeVotes;
     uint8 public ownerChangeVoteCount;
     address public pendingOwner;
 
-    /// Proposal Cooldown
+    // Proposal Cooldown
     uint256 public constant PROPOSAL_COOLDOWN_BLOCKS = 1000;
     uint256 public lastUpgradeProposalBlock;
     uint256 public lastOwnerProposalBlock;
@@ -43,8 +43,8 @@ contract XitcoinImplentation is
         _;
     }
 
-    ///  events for logging
-    event VotersInitilized(address[3] voters);
+    // Events for logging
+    event VotersInitialized(address[3] voters);
     event UpgradeVoteCast(address voter, address newImplementation);
     event UpgradeExecuted(address newImplementation);
     event OwnerChangeVoteCast(address voter, address newOwner);
@@ -63,7 +63,7 @@ contract XitcoinImplentation is
         __Ownable_init(msg.sender);
         __UUPSUpgradeable_init();
 
-        _mint(msg.sender, supply * 10 ** decimals());
+        _mint(msg.sender, supply * (10 ** decimals()));
         // Validate voters
         for (uint8 i = 0; i < 3; i++) {
             require(
@@ -79,7 +79,7 @@ contract XitcoinImplentation is
         }
 
         voters = votersAdmin;
-        emit VotersInitilized(votersAdmin);
+        emit VotersInitialized(votersAdmin);
     }
 
     function isVoter(address account) public view returns (bool) {
@@ -89,7 +89,7 @@ contract XitcoinImplentation is
         return false;
     }
 
-    /// --- Upgrade Voting Mechanism ---
+    // --- Upgrade Voting Mechanism ---
     function voteToUpgrade(
         address newImplementation
     ) public onlyVoter validAddress(newImplementation) {
@@ -122,7 +122,7 @@ contract XitcoinImplentation is
         pendingUpgrade = address(0);
     }
 
-    /// --- Owner Change Voting Mechanism ---
+    // --- Owner Change Voting Mechanism ---
     function voteToChangeOwner(
         address newOwner
     ) public onlyVoter validAddress(newOwner) {
@@ -160,17 +160,17 @@ contract XitcoinImplentation is
         );
     }
 
-    /// Burn function (Owner-only)
+    // Burn function (Owner-only)
     function burn(uint256 amount) external onlyOwner {
         _burn(msg.sender, amount);
     }
 
-    /// Renounce ownership is disabled
+    // Renounce ownership is disabled
     function renounceOwnership() public override onlyOwner {
         revert("Renouncing ownership is disabled");
     }
 
-    /// UUPS Authorization
+    // UUPS Authorization
     function _authorizeUpgrade(
         address newImplementation
     ) internal view override {
@@ -180,7 +180,7 @@ contract XitcoinImplentation is
         );
     }
 
-    /// ERC20 rescue
+    // ERC20 rescue
     function rescueERC20(
         address token,
         address to,

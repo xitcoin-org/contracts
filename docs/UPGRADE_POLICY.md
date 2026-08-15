@@ -1,46 +1,18 @@
-# Xitcoin Token Upgrade Policy
+# Xitcoin V2 upgrade controls
 
-## Scope
+Xitcoin V2 is accessed through the ERC-1967 proxy at `0xE45FE733BC8617FA6DAC8437FC44B5FFFA949991`.
 
-This policy applies to the canonical XTC proxy on Cronos:
+The published implementation uses UUPS upgrade authorization. Its source requires unanimous approval from the three configured voter addresses before an implementation upgrade or ownership change can be executed. Approval state is scoped to the proposed action and consumed when the action executes.
 
-`0xE45FE733BC8617FA6DAC8437FC44B5FFFA949991`
+The deployed implementation address can change after a valid upgrade; integrations must continue to use the proxy address.
 
-## Governance model
-
-The token uses the UUPS proxy pattern. The published implementation requires approval from all three configured voter addresses before an implementation upgrade or ownership change can execute.
-
-The proxy address remains the canonical integration address. Implementation addresses are version-specific and must not be treated as token addresses.
-
-## Release requirements
-
-A production upgrade must include:
-
-1. reviewed source changes on a dedicated branch;
-2. reproducible compiler and dependency settings;
-3. storage-layout and UUPS compatibility checks;
-4. unit, integration and fork tests covering the affected behavior;
-5. security review proportionate to the change;
-6. verified implementation source on the target explorer;
-7. all approvals required by the on-chain governance mechanism;
-8. a release record containing the implementation address, source revision and verification reference.
-
-## Verification
-
-Before approving an upgrade, reviewers must compare the proposed implementation with the verified source and confirm the active proxy implementation:
+## Read-only verification
 
 ```bash
 export CRONOS_RPC='https://evm.cronos.org'
-export XTC_PROXY='0xE45FE733BC8617FA6DAC8437FC44B5FFFA949991'
+export PROXY='0xE45FE733BC8617FA6DAC8437FC44B5FFFA949991'
 
-cast implementation "$XTC_PROXY" --rpc-url "$CRONOS_RPC"
-cast code "$XTC_PROXY" --rpc-url "$CRONOS_RPC" | sha256sum
+cast storage "$PROXY"   0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc   --rpc-url "$CRONOS_RPC"
 ```
 
-## Emergency handling
-
-The current implementation does not expose a general-purpose pause function. An incident response must first determine whether action is possible under the deployed contract's existing controls. Any new emergency mechanism requires explicit design review, testing and independent security assessment.
-
-## Bridge separation
-
-Bridge routes use dedicated contracts and accounting controls. Bridge support must not depend on changing the canonical token proxy unless a separately reviewed token upgrade is strictly required.
+The returned storage word contains the current implementation address in its final 20 bytes.

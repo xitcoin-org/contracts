@@ -1,15 +1,5 @@
-# Security Policy
+# Security policy
 
-## Reporting a vulnerability
+Please report suspected vulnerabilities privately to the security contact published by the Xitcoin organization. Do not open a public issue containing exploit details, private keys, credentials or sensitive infrastructure information.
 
-Please use GitHub private vulnerability reporting for this repository.
-
-Do not disclose potential vulnerabilities through public issues, discussions, or social media before a fix or coordinated disclosure is agreed.
-
-## Scope
-
-This policy covers the source code and deployment references published in this repository.
-
-## Disclosure
-
-Reports are reviewed by the repository maintainers. Please include clear reproduction steps and the affected contract or component.
+Include the affected contract, network, address, impact, reproduction steps and any suggested mitigation. Reports are reviewed before public disclosure is coordinated.
