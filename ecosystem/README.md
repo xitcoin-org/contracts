@@ -1,6 +1,6 @@
 # Xitcoin on Cronos
 
-This directory records public discovery and verification references for the current Xitcoin V2 token on Cronos Mainnet.
+This directory records stable public discovery, verification and community references for the current Xitcoin V2 token on Cronos Mainnet.
 
 ## Canonical identity
 
@@ -19,10 +19,19 @@ Applications must use the V2 proxy address. The source and deployment registry r
 
 - [Cronos Explorer token profile](https://explorer.cronos.com/token/0xe45fe733bc8617fa6dac8437fc44b5fffa949991)
 - [Cronos Explorer contract](https://explorer.cronos.com/address/0xe45fe733bc8617fa6dac8437fc44b5fffa949991)
+- [Cyberscope project profile](https://www.cyberscope.io/audits/1-xtc)
 - [CoinGecko](https://www.coingecko.com/en/coins/xitcoin) — API identifier: `xitcoin`
 - [CoinMarketCap](https://coinmarketcap.com/currencies/xitcoin/) — asset identifier: `39608`
 
-These third-party pages are discovery references. Contract identity must always be confirmed against the proxy address above.
+The smart-contract audit scope and the external KYC record are documented separately in [`audits/`](../audits/) and [`verification/`](../verification/). Third-party pages are discovery references; contract identity must always be confirmed against the proxy address above.
+
+## Official community channels
+
+- [X / Twitter](https://x.com/Xitcoin_org)
+- [Telegram](https://t.me/xitcoin_org)
+- [Discord](https://discord.gg/wFrHx3tAD8)
+
+Only stable, verified channel URLs are recorded. Follower counts, member counts, scores and rankings are intentionally excluded because they change independently of this repository.
 
 ## Markets
 
@@ -32,4 +41,4 @@ The repository therefore does not designate a trading pair as an official pool a
 
 ## Machine-readable reference
 
-`cronos.json` contains stable identifiers and discovery URLs. It intentionally excludes prices, volumes, liquidity balances and unverified pool addresses.
+`cronos.json` contains stable identifiers and URLs. It intentionally excludes prices, volumes, liquidity balances, audience statistics and unverified pool addresses.

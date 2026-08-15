@@ -19,22 +19,25 @@ Use the proxy address for integrations with Xitcoin V2. The machine-readable dep
 - `contracts/cronos/v2/`: verified V2 implementation source;
 - `contracts/cronos/migration/`: verified migration source;
 - `deployments/`: canonical network and contract registry;
-- `audits/`: independent audit references and their exact scope;
-- `ecosystem/`: explorer verification, listings and market discovery references;
+- `audits/`: independent smart-contract audit records and exact source scope;
+- `verification/`: external project verification and KYC references;
+- `ecosystem/`: explorer verification, listings, markets and official community channels;
 - `docs/MIGRATION.md`: migration accounting and verification;
 - `docs/UPGRADE_POLICY.md`: V2 upgrade controls.
 
 The native XTC asset on Xitcoin EVM is implemented by the chain. It is not an ERC-20 deployment in this repository. A cross-chain bridge contract will be published here only after it exists, has been reviewed and has a canonical deployment.
 
-## Audit
+## Audit and external verification
 
 The current V2 implementation source is covered by the Cyberscope audit referenced in [`audits/README.md`](audits/README.md). The audited SHA-256 matches `contracts/cronos/v2/XTCV2.sol`.
 
+Cyberscope's project profile and KYC record are indexed separately in [`verification/README.md`](verification/README.md). KYC confirms an identity-verification result; it does not expand smart-contract audit scope.
+
 No audit coverage is claimed here for V1, the migration contract, Xitcoin EVM or a future bridge unless an explicit report is added with a matching source hash.
 
-## Verification and listings
+## Verification, listings and community
 
-Cronos Explorer verification, CoinGecko, CoinMarketCap and current market-discovery references are maintained in [`ecosystem/README.md`](ecosystem/README.md). Third-party markets are not designated as official pools. Always verify the Cronos chain and V2 proxy address before signing.
+Cronos Explorer verification, CoinGecko, CoinMarketCap, current market-discovery references and official community channels are maintained in [`ecosystem/README.md`](ecosystem/README.md). Third-party markets are not designated as official pools. Always verify the Cronos chain and V2 proxy address before signing.
 
 ## Verification commands
 
