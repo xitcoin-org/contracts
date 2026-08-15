@@ -1,5 +1,17 @@
-# Security policy
+# Security Policy
 
-Please report suspected vulnerabilities privately to the security contact published by the Xitcoin organization. Do not open a public issue containing exploit details, private keys, credentials or sensitive infrastructure information.
+## Reporting
 
-Include the affected contract, network, address, impact, reproduction steps and any suggested mitigation. Reports are reviewed before public disclosure is coordinated.
+Report suspected vulnerabilities through GitHub Private Vulnerability Reporting for this repository. Include the affected contract, network, address, impact, reproduction steps and supporting evidence.
+
+Do not disclose an unresolved vulnerability in a public issue.
+
+## Scope
+
+Reports may cover the published V1, V2 and migration sources, deployment metadata, upgrade controls and discrepancies between a canonical source hash and its documented deployment.
+
+The audit records in `audits/` define independent audit coverage. Their presence does not extend coverage to components outside the stated scope.
+
+## Disclosure
+
+Please allow time for investigation, remediation and coordinated disclosure. Response time depends on severity and reproducibility.
