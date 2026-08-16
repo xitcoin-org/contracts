@@ -8,7 +8,9 @@ Do not disclose an unresolved vulnerability in a public issue.
 
 ## Scope
 
-Reports may cover the published V1, V2 and migration sources, deployment metadata, upgrade controls and discrepancies between a canonical source hash and its documented deployment.
+Reports may cover the published V1, V2, migration and bridge-vault sources, deployment metadata, upgrade controls and discrepancies between a canonical source hash and its documented deployment.
+
+For the bridge vault, reports concerning signature-domain separation, quorum enforcement, replay protection, accounting limits, emergency controls and canonical-asset custody are in scope.
 
 The audit records in `audits/` define independent audit coverage. Their presence does not extend coverage to components outside the stated scope.
 
