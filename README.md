@@ -20,6 +20,7 @@ The deployed Cronos V2 contract returns `$XTC` from `symbol()`. The public notat
 - `contracts/cronos/v1/`: verified V1 source;
 - `contracts/cronos/v2/`: verified V2 implementation source;
 - `contracts/cronos/migration/`: verified migration source;
+- `contracts/cronos/bridge/`: reviewed bridge custody candidates;
 - `deployments/`: canonical network and contract registry;
 - `audits/`: independent smart-contract audit records and exact source scope;
 - `verification/`: external project verification and KYC references;
@@ -27,7 +28,11 @@ The deployed Cronos V2 contract returns `$XTC` from `symbol()`. The public notat
 - `docs/MIGRATION.md`: migration accounting and verification;
 - `docs/UPGRADE_POLICY.md`: V2 upgrade controls.
 
-The native XTC asset on Xitcoin EVM is implemented by the chain. It is not an ERC-20 deployment in this repository. A cross-chain bridge contract will be published here only after it exists, has been reviewed and has a canonical deployment.
+The native XTC asset on Xitcoin EVM is implemented by the chain. It is not an ERC-20 deployment in this repository.
+
+`contracts/cronos/bridge/CronosBridgeVault.sol` contains the Cronos custody side of the canonical XTC route. It accepts voluntary XTC deposits and releases locked XTC only after a two-of-three EIP-712 approval representing a native Xitcoin burn. Source publication does not identify a deployment; canonical addresses are added to `deployments/` only after deployment and verification.
+
+The vault security model and verification procedure are documented in [`docs/BRIDGE_VAULT.md`](docs/BRIDGE_VAULT.md).
 
 ## Audit and external verification
 
@@ -47,6 +52,10 @@ Cronos Explorer verification, CoinGecko, CoinMarketCap, current market-discovery
 sha256sum contracts/cronos/v1/XitcoinV1.sol
 sha256sum contracts/cronos/v2/XTCV2.sol
 sha256sum contracts/cronos/migration/Migration.sol
+npm ci
+npm run compile
+npm run test:vault
+npm run audit:production
 jq . deployments/cronos.json
 jq . ecosystem/cronos.json
 ```
