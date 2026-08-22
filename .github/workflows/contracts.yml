@@ -64,4 +64,4 @@ jobs:
           ignore-compile: true
           slither-version: '0.11.6'
           fail-on: medium
-          slither-args: '--filter-paths "node_modules|contracts/test"'
+          slither-args: '--filter-paths "node_modules|contracts/test|contracts/cronos/v1|contracts/cronos/v2|contracts/cronos/v3"'
