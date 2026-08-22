@@ -31,6 +31,9 @@ administrator withdrawal to that permanent vault.
 - There is no arbitrary canonical-token recipient and no owner withdrawal.
 - Directly transferred canonical dust follows the full reserve to the same
   fixed terminal recipient; it cannot be redirected.
+- Canonical tokens sent directly after closure are not trapped: anyone may
+  trigger `forwardTerminalBalance`, but it can forward only to the permanent
+  vault after activation or the immutable refund recipient after cancellation.
 
 ## Deployment rule
 
