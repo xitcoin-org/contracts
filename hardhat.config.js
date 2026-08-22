@@ -1,10 +1,10 @@
-'use strict';
+import { defineConfig } from 'hardhat/config';
+import hardhatEthers from '@nomicfoundation/hardhat-ethers';
+import hardhatEthersChaiMatchers from '@nomicfoundation/hardhat-ethers-chai-matchers';
+import hardhatMocha from '@nomicfoundation/hardhat-mocha';
 
-require('@nomicfoundation/hardhat-ethers');
-require('@nomicfoundation/hardhat-chai-matchers');
-
-/** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
+export default defineConfig({
+  plugins: [hardhatEthers, hardhatEthersChaiMatchers, hardhatMocha],
   solidity: {
     compilers: [
       {
@@ -37,7 +37,9 @@ module.exports = {
     cache: './cache',
     artifacts: './artifacts'
   },
-  mocha: {
-    timeout: 120000
+  test: {
+    mocha: {
+      timeout: 120000
+    }
   }
-};
+});

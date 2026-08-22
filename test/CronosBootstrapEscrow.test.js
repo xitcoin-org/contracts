@@ -1,7 +1,7 @@
-'use strict';
+import { expect } from 'chai';
+import { network } from 'hardhat';
 
-const { expect } = require('chai');
-const { ethers } = require('hardhat');
+const { ethers } = await network.create();
 
 describe('CronosBootstrapEscrow', function () {
   const genesisHash = ethers.sha256(ethers.toUtf8Bytes('canonical-mainnet-genesis'));
