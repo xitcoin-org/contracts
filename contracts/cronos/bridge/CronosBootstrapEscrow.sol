@@ -175,7 +175,7 @@ contract CronosBootstrapEscrow is EIP712, ReentrancyGuard {
         ) revert InvalidState();
 
         uint256 amount = asset.balanceOf(address(this));
-        if (amount == 0) revert InvalidAmount();
+        if (amount < 1) revert InvalidAmount();
 
         address fixedRecipient = terminalState == State.Activated
             ? permanentVault
