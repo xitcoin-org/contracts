@@ -72,6 +72,11 @@ contract CronosBootstrapEscrow is EIP712, ReentrancyGuard {
         uint256 refundedAmount,
         bytes32 indexed genesisHash
     );
+    event TerminalBalanceForwarded(
+        address indexed fixedRecipient,
+        uint256 amount,
+        State indexed terminalState
+    );
 
     constructor(
         IERC20 canonicalAsset,
@@ -156,6 +161,31 @@ contract CronosBootstrapEscrow is EIP712, ReentrancyGuard {
         asset.safeTransfer(refundRecipient, amount);
 
         emit BootstrapCancelled(refundRecipient, amount, genesisHash);
+    }
+
+    /// @notice Forwards canonical XTC sent directly after the terminal decision.
+    /// @dev Anyone may trigger this, but the recipient is fixed by the terminal
+    ///      state: the permanent vault after activation, or the refund recipient
+    ///      after cancellation. No caller can redirect the funds.
+    function forwardTerminalBalance() external nonReentrant {
+        State terminalState = state;
+        if (
+            terminalState != State.Activated &&
+            terminalState != State.Cancelled
+        ) revert InvalidState();
+
+        uint256 amount = asset.balanceOf(address(this));
+        if (amount == 0) revert InvalidAmount();
+
+        address fixedRecipient = terminalState == State.Activated
+            ? permanentVault
+            : refundRecipient;
+        asset.safeTransfer(fixedRecipient, amount);
+        emit TerminalBalanceForwarded(
+            fixedRecipient,
+            amount,
+            terminalState
+        );
     }
 
     function _authorize(
