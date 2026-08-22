@@ -135,6 +135,45 @@ describe('CronosBootstrapEscrow', function () {
     expect(await token.balanceOf(permanentVault.address)).to.equal(0n);
   });
 
+  it('forwards late direct transfers only to the activated permanent vault', async function () {
+    await fund();
+    const approval = await decisionSignatures(await escrow.ACTION_ACTIVATE());
+    await escrow.activate(approval.nonce, approval.expiry, approval.signatures);
+
+    const lateAmount = ethers.parseEther('3');
+    await token.mint(outsider.address, lateAmount);
+    await token.connect(outsider).transfer(await escrow.getAddress(), lateAmount);
+
+    await expect(escrow.connect(outsider).forwardTerminalBalance())
+      .to.emit(escrow, 'TerminalBalanceForwarded')
+      .withArgs(permanentVault.address, lateAmount, 2n);
+    expect(await token.balanceOf(permanentVault.address)).to.equal(
+      expectedAmount + lateAmount
+    );
+  });
+
+  it('forwards late direct transfers only to the fixed refund recipient after cancellation', async function () {
+    await fund();
+    const approval = await decisionSignatures(await escrow.ACTION_CANCEL());
+    await escrow.cancel(approval.nonce, approval.expiry, approval.signatures);
+
+    const lateAmount = ethers.parseEther('3');
+    await token.mint(outsider.address, lateAmount);
+    await token.connect(outsider).transfer(await escrow.getAddress(), lateAmount);
+
+    await expect(escrow.connect(outsider).forwardTerminalBalance())
+      .to.emit(escrow, 'TerminalBalanceForwarded')
+      .withArgs(refundRecipient.address, lateAmount, 3n);
+    expect(await token.balanceOf(refundRecipient.address)).to.equal(
+      expectedAmount + lateAmount
+    );
+  });
+
+  it('cannot forward a balance before a terminal decision', async function () {
+    await expect(escrow.forwardTerminalBalance())
+      .to.be.revertedWithCustomError(escrow, 'InvalidState');
+  });
+
   it('rejects one signer, duplicate signatures and outsiders', async function () {
     await fund();
     const action = await escrow.ACTION_ACTIVATE();
