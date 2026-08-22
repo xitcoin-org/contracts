@@ -1,10 +1,8 @@
-'use strict';
+import { expect } from 'chai';
+import { network } from 'hardhat';
+import { anyValue } from '@nomicfoundation/hardhat-ethers-chai-matchers/withArgs';
 
-const { expect } = require('chai');
-const { ethers } = require('hardhat');
-const {
-  anyValue
-} = require('@nomicfoundation/hardhat-chai-matchers/withArgs');
+const { ethers } = await network.create();
 
 describe('CronosBridgeVault', function () {
   const routeId = ethers.id('XTC:CRONOS:25:XITCOIN');
