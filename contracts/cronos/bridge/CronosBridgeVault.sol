@@ -410,7 +410,7 @@ contract CronosBridgeVault is EIP712, Pausable, ReentrancyGuard {
         }
 
         address[] memory recovered = new address[](signatures.length);
-        uint256 approvals;
+        uint256 approvals = 0;
 
         for (uint256 i = 0; i < signatures.length; ++i) {
             address signer = ECDSA.recover(digest, signatures[i]);
