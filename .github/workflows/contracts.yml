@@ -54,5 +54,5 @@ jobs:
       - name: Compile contracts
         run: npm run compile
 
-      - name: Test Cronos bridge vault
-        run: npm run test:vault
+      - name: Test all contracts
+        run: npm test
