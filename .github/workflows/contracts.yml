@@ -31,9 +31,9 @@ concurrency:
 
 jobs:
   compile-and-test:
-    name: Compile and test
+    name: Compile, test and analyze
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -56,3 +56,12 @@ jobs:
 
       - name: Test all contracts
         run: npm test
+
+      - name: Run blocking Slither analysis
+        uses: crytic/slither-action@b52cc1cbfee9ca3e8722dd5224299d16c9a6b80f
+        with:
+          target: '.'
+          ignore-compile: true
+          slither-version: '0.11.6'
+          fail-on: medium
+          slither-args: '--filter-paths "node_modules|contracts/test"'
