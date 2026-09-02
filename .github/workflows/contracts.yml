@@ -4,8 +4,10 @@ on:
   pull_request:
     paths:
       - '.github/workflows/contracts.yml'
+      - '.env.example'
       - '.nvmrc'
       - 'contracts/**'
+      - 'scripts/**'
       - 'test/**'
       - 'hardhat.config.js'
       - 'package.json'
@@ -15,8 +17,10 @@ on:
       - main
     paths:
       - '.github/workflows/contracts.yml'
+      - '.env.example'
       - '.nvmrc'
       - 'contracts/**'
+      - 'scripts/**'
       - 'test/**'
       - 'hardhat.config.js'
       - 'package.json'
