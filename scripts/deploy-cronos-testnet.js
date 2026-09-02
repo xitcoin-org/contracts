@@ -53,11 +53,15 @@ const vault = await Vault.deploy(
   plan.signers,
   plan.guardian,
   plan.maxReleaseAmount,
-  plan.dailyReleaseLimit
+  plan.dailyReleaseLimit,
+  true
 );
 await vault.waitForDeployment();
 const vaultDeployment = vault.deploymentTransaction();
 const vaultReceipt = await vaultDeployment.wait();
+if (!(await vault.paused())) {
+  throw new Error('Cronos testnet vault must start paused');
+}
 
 const deployed = Object.freeze({
   schema_version: 1,
@@ -83,7 +87,8 @@ const deployed = Object.freeze({
       signers: plan.signers,
       guardian: plan.guardian,
       max_release_amount: plan.maxReleaseAmount.toString(),
-      daily_release_limit: plan.dailyReleaseLimit.toString()
+      daily_release_limit: plan.dailyReleaseLimit.toString(),
+      paused_at_deployment: true
     }
   }
 });

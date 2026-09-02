@@ -120,7 +120,8 @@ contract CronosBridgeVault is EIP712, Pausable, ReentrancyGuard {
         address[3] memory initialSigners,
         address initialGuardian,
         uint256 initialMaxReleaseAmount,
-        uint256 initialDailyReleaseLimit
+        uint256 initialDailyReleaseLimit,
+        bool startPaused
     ) EIP712(EIP712_NAME, EIP712_VERSION) {
         if (address(canonicalAsset) == address(0)) revert InvalidAddress();
         if (canonicalRouteId == bytes32(0)) revert InvalidRoute();
@@ -135,6 +136,7 @@ contract CronosBridgeVault is EIP712, Pausable, ReentrancyGuard {
 
         _setSigners(initialSigners);
         signerSetVersion = 1;
+        if (startPaused) _pause();
     }
 
     /// @notice Returns the current bridge signer set.

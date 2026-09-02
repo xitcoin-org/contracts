@@ -73,7 +73,8 @@ The repository provides a fail-closed testnet deployment command. It accepts
 only Cronos EVM Testnet chain ID `338`, deploys the fixed-supply `tXTC` test
 asset and the vault for route
 `XTC:CRONOS-TESTNET:338:XITCOIN-TESTNET-V2-1`, and writes a new local deployment
-record with mode `0600`. It refuses Cronos mainnet chain ID `25`, duplicate
+record with mode `0600`. The vault starts paused and requires a later 2-of-3
+signer approval to resume. It refuses Cronos mainnet chain ID `25`, duplicate
 signers, a signer used as guardian, unsafe limits, an unfunded tCRO deployer and
 overwriting an earlier record.
 

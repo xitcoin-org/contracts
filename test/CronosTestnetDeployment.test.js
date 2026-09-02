@@ -64,11 +64,13 @@ describe('Cronos testnet deployment controls', function () {
       [signerOne.address, signerTwo.address, signerThree.address],
       guardian.address,
       ethers.parseEther('10'),
-      ethers.parseEther('50')
+      ethers.parseEther('50'),
+      true
     );
     expect(await token.symbol()).to.equal('tXTC');
     expect(await token.totalSupply()).to.equal(ethers.parseEther('1000'));
     expect(await vault.asset()).to.equal(await token.getAddress());
     expect(await vault.routeId()).to.equal(TESTNET_ROUTE_ID);
+    expect(await vault.paused()).to.equal(true);
   });
 });
