@@ -67,6 +67,31 @@ Deployment is a separate reviewed operation. Before any Cronos transaction:
 
 No private key, mnemonic, API key or RPC credential belongs in this repository.
 
+## Isolated Cronos testnet deployment
+
+The repository provides a fail-closed testnet deployment command. It accepts
+only Cronos EVM Testnet chain ID `338`, deploys the fixed-supply `tXTC` test
+asset and the vault for route
+`XTC:CRONOS-TESTNET:338:XITCOIN-TESTNET-V2-1`, and writes a new local deployment
+record with mode `0600`. It refuses Cronos mainnet chain ID `25`, duplicate
+signers, a signer used as guardian, unsafe limits, an unfunded tCRO deployer and
+overwriting an earlier record.
+
+Use `.env.example` as a variable checklist, inject the values from a private
+secret store, provide distinct test-only identities, and run only after an
+independently reviewed transaction authorization:
+
+```bash
+npm ci
+npm run test:testnet-deployment
+npm run deploy:cronos-testnet
+```
+
+The generated record under `deployments/generated/` is intentionally ignored.
+After explorer verification and review, publish a sanitized registry entry in a
+separate pull request. A testnet deployment does not authorize route activation
+or any mainnet operation.
+
 ## Explorer verification
 
 Current Cronos Explorer endpoints are tracked separately from compilation because explorer APIs can change independently of contract source:

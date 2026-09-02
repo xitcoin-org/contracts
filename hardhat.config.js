@@ -1,4 +1,4 @@
-import { defineConfig } from 'hardhat/config';
+import { configVariable, defineConfig } from 'hardhat/config';
 import hardhatEthers from '@nomicfoundation/hardhat-ethers';
 import hardhatEthersChaiMatchers from '@nomicfoundation/hardhat-ethers-chai-matchers';
 import hardhatMocha from '@nomicfoundation/hardhat-mocha';
@@ -30,6 +30,15 @@ export default defineConfig({
         }
       }
     ]
+  },
+  networks: {
+    cronosTestnet: {
+      type: 'http',
+      chainType: 'l1',
+      chainId: 338,
+      url: configVariable('CRONOS_TESTNET_RPC_URL'),
+      accounts: [configVariable('CRONOS_TESTNET_DEPLOYER_KEY')]
+    }
   },
   paths: {
     sources: './contracts',
