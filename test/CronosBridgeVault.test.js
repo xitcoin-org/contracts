@@ -143,7 +143,8 @@ describe('CronosBridgeVault', function () {
       [signerOne.address, signerTwo.address, signerThree.address],
       guardian.address,
       maxRelease,
-      dailyLimit
+      dailyLimit,
+      false
     );
 
     await token.mint(user.address, ethers.parseEther('1000'));
@@ -174,7 +175,8 @@ describe('CronosBridgeVault', function () {
           [signerOne.address, signerOne.address, signerThree.address],
           guardian.address,
           maxRelease,
-          dailyLimit
+          dailyLimit,
+          false
         )
       ).to.be.revertedWithCustomError(vault, 'InvalidSignerSet');
     });
@@ -188,7 +190,8 @@ describe('CronosBridgeVault', function () {
           [signerOne.address, signerTwo.address, signerThree.address],
           guardian.address,
           dailyLimit + 1n,
-          dailyLimit
+          dailyLimit,
+          false
         )
       ).to.be.revertedWithCustomError(vault, 'InvalidAmount');
     });
@@ -414,7 +417,8 @@ describe('CronosBridgeVault', function () {
         [signerOne.address, signerTwo.address, signerThree.address],
         guardian.address,
         maxRelease,
-        dailyLimit
+        dailyLimit,
+        false
       );
       await token.mint(await secondVault.getAddress(), ethers.parseEther('20'));
 

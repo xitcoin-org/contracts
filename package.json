@@ -9,7 +9,9 @@
   "scripts": {
     "test": "hardhat test",
     "test:vault": "hardhat test test/CronosBridgeVault.test.js",
+    "test:testnet-deployment": "hardhat test test/CronosTestnetDeployment.test.js",
     "compile": "hardhat compile",
+    "deploy:cronos-testnet": "hardhat run scripts/deploy-cronos-testnet.js --network cronosTestnet",
     "clean": "hardhat clean",
     "audit:production": "npm audit --omit=dev"
   },
