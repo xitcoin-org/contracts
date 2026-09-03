@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "environment": "isolated-testnet",
+  "network": "Cronos EVM Testnet",
+  "chain_id": 338,
+  "xitcoin_chain_id": "xitcoin-testnet-v2-1",
+  "route_label": "XTC:CRONOS-TESTNET:338:XITCOIN-TESTNET-V2-1",
+  "route_id": "0x21121c16b53a726056a6683f00c7eb4da5501ce8a2abc8a4677e06f1e94b5cd9",
+  "deployer": "0x58A4cC32983B6d99873dc55297315F4a57D76928",
+  "contracts": {
+    "test_token": {
+      "address": "0x21c2B745302353DB64C7bbf5c67B13BdA5b1Da5c",
+      "symbol": "tXTC",
+      "deployment_transaction": "0x886966ba2b065ddad65e48b36f4e5d16844c66cb009633cc89a80bdb096b6d2a",
+      "deployment_block": 114836052
+    },
+    "bridge_vault": {
+      "address": "0x1c94273C0b199b139D82da3786C9eCbE189D5919",
+      "deployment_transaction": "0x940bbc09d091647e90031159881985d37de5fbc3aa7a0919148c327c600bf568",
+      "deployment_block": 114836061,
+      "signer_set_version": "1",
+      "signers": [
+        "0xF54f893fc9b983589d3812a0F1F318d593763E55",
+        "0xD97756eFCeE4190Cfa8493C3B9c1789Caffc4edc",
+        "0xF2a037BA8F0e210F0f1E97eFB4F903C98e9bff2E"
+      ],
+      "guardian": "0x8c88dC1A17e5aaC97C5132D3daeb951e974D8368",
+      "max_release_amount": "100000000000000000000",
+      "daily_release_limit": "500000000000000000000",
+      "paused_at_deployment": true
+    }
+  }
+}
