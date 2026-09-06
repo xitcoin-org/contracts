@@ -209,9 +209,11 @@ contract CronosBridgeVault is EIP712, Pausable, ReentrancyGuard {
 
         _applyDailyLimit(amount);
 
-        if (asset.balanceOf(address(this)) < amount) {
+        uint256 vaultBalanceBefore = asset.balanceOf(address(this));
+        if (vaultBalanceBefore < amount) {
             revert InsufficientLiquidity();
         }
+        uint256 recipientBalanceBefore = asset.balanceOf(recipient);
 
         bytes32 digest = _hashTypedDataV4(
             keccak256(
@@ -229,6 +231,16 @@ contract CronosBridgeVault is EIP712, Pausable, ReentrancyGuard {
 
         processedBurns[sourceBurnId] = true;
         asset.safeTransfer(recipient, amount);
+        uint256 vaultBalanceAfter = asset.balanceOf(address(this));
+        uint256 recipientBalanceAfter = asset.balanceOf(recipient);
+        // A successful ERC20 return value alone does not establish exact delivery.
+        // Revert the replay marker, daily accounting and token effects together.
+        if (
+            vaultBalanceAfter > vaultBalanceBefore ||
+            vaultBalanceBefore - vaultBalanceAfter != amount ||
+            recipientBalanceAfter < recipientBalanceBefore ||
+            recipientBalanceAfter - recipientBalanceBefore != amount
+        ) revert UnsupportedTokenBehavior();
 
         emit Released(
             sourceBurnId,

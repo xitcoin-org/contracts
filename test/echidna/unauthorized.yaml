@@ -1,0 +1,6 @@
+testMode: property
+testLimit: 10000
+seqLen: 50
+shrinkLimit: 1000
+workers: 1
+seed: 20260905

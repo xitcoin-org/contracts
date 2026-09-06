@@ -8,3 +8,6 @@ types/
 .env.*
 !.env.example
 deployments/generated/
+artifacts-foundry/
+cache-foundry/
+crytic-export/
