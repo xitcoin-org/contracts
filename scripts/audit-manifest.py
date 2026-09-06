@@ -26,9 +26,15 @@ def main():
     parser.add_argument("--evidence", type=Path, action="append", default=[])
     args = parser.parse_args()
     selected = set()
-    for folder, pattern in [("contracts", "*.sol"), ("test", "*.js"), ("scripts", "*.js")]:
+    for folder, pattern in [("contracts", "*.sol"), ("test", "*.js"),
+                            ("test", "*.sol"), ("test", "*.yaml"), ("test", "*.yml"),
+                            ("test", "*.py"), ("scripts", "*.js"), ("scripts", "*.py"),
+                            ("audits", "*.spec"), ("audits", "*.conf"),
+                            (".github/workflows", "*.yml"), (".github/workflows", "*.yaml")]:
         selected.update(ROOT.joinpath(folder).rglob(pattern))
     selected.update(ROOT / name for name in ["package.json", "package-lock.json", "hardhat.config.js"])
+    selected.update(ROOT / name for name in ["foundry.toml", "slither.config.json", ".nvmrc"]
+                    if ROOT.joinpath(name).exists())
     selected.add(Path(__file__).resolve())
     inputs = {str(p.relative_to(ROOT)): fingerprint(p) for p in sorted(selected)}
     evidence = [{"name": p.name, **fingerprint(p)} for p in args.evidence]

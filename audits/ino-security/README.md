@@ -17,10 +17,18 @@ python3 scripts/audit-manifest.py --output /tmp/contracts-audit-manifest.json \
   --evidence /path/to/sanitized-slither.json
 ```
 
-The script hashes contract, test, deployment-tool source and lockfile inputs;
+The script hashes contracts, JavaScript/Python/Solidity tests, YAML campaign
+configuration, JavaScript/Python tools, CVL specifications and prover configuration,
+workflows, available Foundry/Slither configuration, Node version and lockfile inputs;
 it does not run those tools. It refuses to overwrite existing evidence. Keep
 actual tool versions and command exit codes beside the manifest; an evidence
 file hash is not proof that its claimed command succeeded.
+
+Run `python3 -m unittest discover -s test -p 'test_audit_manifest.py'` to check
+input coverage, changed input hashes and refusal to overwrite prior evidence.
+The explicit input list is an inventory, not an automatic dependency closure:
+record imported token models, external packages, compiler artifacts and any other
+tool-specific inputs alongside it. Only pass sanitized evidence for public use.
 
 ## Review layers
 
