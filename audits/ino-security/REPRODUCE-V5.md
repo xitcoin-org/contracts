@@ -30,10 +30,19 @@ configuration. No chain endpoint is needed. The negative-authorization harness
 covers duplicate/untrusted signatures, guardian access and unchanged custody;
 it is not an authorized-release or full lifecycle campaign.
 
-Observed results: 5 Foundry tests passed (three with 512 fuzz cases each),
+Observed results: 7 Foundry tests passed (five with 512 fuzz cases each),
 29 existing Hardhat tests passed, and all 3 Echidna properties passed after
 10,001 generated calls with seed 20260905. A separate bounded Mythril 0.24.8
 runtime-only scan raised an unconfirmed requirement-violation alert on a getter
 path with uninitialized constructor/immutable state. It is not evidence of an
 exploitable vault flaw. No quantitative full-contract coverage or formal proof
 is claimed.
+
+Fresh continuation review adds independent recipient, amount, burn ID, deadline,
+signer version and chain-domain mutations with an authorized success control.
+A day-rollover sequence checks that failed transfer rolls back both the day and
+its accounting and never clears replay state. The callback uses a different,
+validly authorized burn; removing the reentrancy guard in a temporary local
+mutation made this test fail. The original contract source was restored before
+all final tests. This mutation is evidence about test sensitivity, not a deployed
+vulnerability. Full Hardhat discovery reports 36 tests (7 Solidity, 29 Mocha).

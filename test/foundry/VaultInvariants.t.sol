@@ -7,6 +7,7 @@ interface Vm {
     function addr(uint256) external returns (address);
     function sign(uint256, bytes32) external returns (uint8, bytes32, bytes32);
     function chainId(uint256) external;
+    function warp(uint256) external;
 }
 contract VaultInvariantsTest {
     Vm constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
@@ -60,8 +61,54 @@ contract VaultInvariantsTest {
     }
     function test_callbackCannotReenterRelease() public {
         bytes32 burn=keccak256("callback");bytes[] memory sigs=signatures(burn,10);
-        token.configure(3,address(vault),abi.encodeCall(vault.release,(burn,recipient,10,1,2000000000,sigs)));
+        bytes32 otherBurn=keccak256("different authorized callback");
+        bytes[] memory otherSigs=signatures(otherBurn,10);
+        token.configure(3,address(vault),abi.encodeCall(vault.release,(otherBurn,recipient,10,1,2000000000,otherSigs)));
         vault.release(burn,recipient,10,1,2000000000,sigs);
-        require(!token.callbackSucceeded() && token.balanceOf(recipient)==10 && vault.releasedToday()==10,"reentrancy");
+        require(!token.callbackSucceeded() && !vault.processedBurns(otherBurn) && token.balanceOf(recipient)==10 && vault.releasedToday()==10,"reentrancy");
+    }
+
+    function testFuzz_releasePayloadAndChainBinding(uint64 seed) public {
+        bytes32 burn=keccak256(abi.encode("binding",seed));
+        uint256 amount=uint256(seed)%9999+1;
+        bytes[] memory sigs=signatures(burn,amount);
+        (bool ok,)=address(vault).call(abi.encodeCall(vault.release,(burn,recipient,amount+1,1,2000000000,sigs)));
+        require(!ok,"amount mutation");
+        (ok,)=address(vault).call(abi.encodeCall(vault.release,(burn,address(0x56789),amount,1,2000000000,sigs)));
+        require(!ok,"recipient mutation");
+        (ok,)=address(vault).call(abi.encodeCall(vault.release,(keccak256(abi.encode(burn)),recipient,amount,1,2000000000,sigs)));
+        require(!ok,"burn mutation");
+        (ok,)=address(vault).call(abi.encodeCall(vault.release,(burn,recipient,amount,1,2000000001,sigs)));
+        require(!ok,"deadline mutation");
+        (ok,)=address(vault).call(abi.encodeCall(vault.release,(burn,recipient,amount,2,2000000000,sigs)));
+        require(!ok,"signer version mutation");
+        vm.chainId(339);
+        (ok,)=address(vault).call(abi.encodeCall(vault.release,(burn,recipient,amount,1,2000000000,sigs)));
+        require(!ok,"chain mutation");
+        vm.chainId(338);
+        require(!vault.processedBurns(burn) && vault.releasedToday()==0 && token.balanceOf(recipient)==0,"failed binding changed state");
+        // Same signatures must succeed in the intended domain; avoid a vacuous rejection test.
+        vault.release(burn,recipient,amount,1,2000000000,sigs);
+        require(token.balanceOf(recipient)==amount,"authorized reachability");
+    }
+
+    function testFuzz_dailyRolloverPreservesReplayAndAtomicFailure(uint64 seed) public {
+        uint256 amount=uint256(seed)%10000+1;
+        bytes32 first=keccak256(abi.encode("first",seed));
+        bytes[] memory sigs=signatures(first,amount);
+        vault.release(first,recipient,amount,1,2000000000,sigs);
+        vm.warp(2 days);
+        (bool ok,)=address(vault).call(abi.encodeCall(vault.release,(first,recipient,amount,1,2000000000,sigs)));
+        require(!ok && vault.processedBurns(first),"rollover cleared replay");
+        bytes32 second=keccak256(abi.encode("second",seed));
+        bytes[] memory secondSigs=signatures(second,amount);
+        uint256 dayBefore=vault.releaseDay();
+        token.configure(1,address(0),"");
+        (ok,)=address(vault).call(abi.encodeCall(vault.release,(second,recipient,amount,1,2000000000,secondSigs)));
+        require(!ok && vault.releaseDay()==dayBefore && vault.releasedToday()==amount && !vault.processedBurns(second),"failure partially reset day");
+        token.configure(0,address(0),"");
+        vault.release(second,recipient,amount,1,2000000000,secondSigs);
+        require(vault.releaseDay()==2 && vault.releasedToday()==amount && vault.processedBurns(first),"successful rollover accounting");
+        require(token.balanceOf(recipient)==2*amount && token.balanceOf(address(vault))+token.balanceOf(recipient)==1000000,"sequence conservation");
     }
 }
